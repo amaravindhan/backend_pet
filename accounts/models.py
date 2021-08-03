@@ -33,14 +33,15 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
+
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model that supports using phone number instead of username"""
 
     userTypeChoices = [
-            ('pet_owner', 'Pet Owner'), ('care_taker', 'Care Taker'), 
-            ('vet_doctor', 'Doctor'), ('store_owner', 'Store Owner'), 
-            ('store_staff', 'Store Staff')
-        ]
+        ('pet_owner', 'Pet Owner'), ('care_taker', 'Care Taker'),
+        ('vet_doctor', 'Doctor'), ('store_owner', 'Store Owner'),
+        ('store_staff', 'Store Staff')
+    ]
 
     phone_regex = RegexValidator(regex=r'^\+?1?\d{10,13}$',
                                  message="Phone Number must be 10 digits!")
@@ -51,7 +52,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         _("Username"), max_length=50, unique=True, null=True)
 
     full_name = models.CharField(max_length=50)
-    user_type = models.CharField(max_length=50, choices=userTypeChoices, default='pet_owner')
+    user_type = models.CharField(max_length=50, choices=userTypeChoices,
+                                 default='pet_owner')
 
     is_phone_verified = models.BooleanField(default=False, _('Phone Verified'))
     is_email_verified = models.BooleanField(default=False, _('Email Verified'))
